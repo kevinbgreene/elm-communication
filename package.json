@@ -1,0 +1,17 @@
+{
+  "name": "elm-communication",
+  "version": "1.0.0",
+  "description": "Two-way module communication in Elm by example",
+  "main": "index.js",
+  "scripts": {
+    "elm:install": "elm package install",
+    "elm:make": "elm make ./src/Main.elm --output=./dist/app.js;",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevinbgreene/elm-communication.git"
+  },
+  "license": "MIT"
+}
