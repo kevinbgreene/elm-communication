@@ -22,7 +22,7 @@ type Msg
 
 
 type alias Model =
-  { items : List Child.Model
+  { users : List Child.Model
   }
 
 
@@ -39,11 +39,11 @@ type alias Flags =
 model : Flags -> Model
 model flags =
   let
-    createChild item =
-      Child.model item.id item.name
+    createChild user =
+      Child.model user.id user.name
 
   in
-    { items = (List.map createChild flags)
+    { users = (List.map createChild flags)
     }
 
 
@@ -62,15 +62,30 @@ update msg model =
       let
         updateChild next =
           if child.id == next.id then
-            Child.update msg next
+            let
+              newChild =
+                Child.update msg next
+
+              isNewlyDeleted =
+                newChild.isDeleted == True && child.isDeleted == False
+
+            in
+              newChild
+
           else
             next
 
-        newItems =
-          List.map updateChild model.items
+        notDeleted next =
+          next.isDeleted == False
+
+        updatedUsers =
+          List.map updateChild model.users
+
+        newUsers =
+          List.filter notDeleted updatedUsers
 
         newModel =
-          { model | items = newItems }
+          { model | users = newUsers }
 
       in
         (newModel, Cmd.none)
@@ -85,7 +100,7 @@ view model =
         [ text "Users:" ]
     , ul
         []
-        (List.map (\item -> Html.map (UpdateChild item) (Child.view item)) model.items)
+        (List.map (\user -> Html.map (UpdateChild user) (Child.view user)) model.users)
     ]
 
 

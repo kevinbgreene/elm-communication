@@ -14,6 +14,7 @@ type Msg
 type alias Model =
   { id : Int
   , name : String
+  , isDeleted : Bool
   }
 
 
@@ -21,6 +22,7 @@ model : Int -> String -> Model
 model id name =
   { id = id
   , name = name
+  , isDeleted = False
   }
 
 
@@ -47,4 +49,9 @@ update msg model =
       model
 
     Delete ->
-      model
+      let
+        newModel =
+          { model | isDeleted = True }
+
+      in
+        newModel
