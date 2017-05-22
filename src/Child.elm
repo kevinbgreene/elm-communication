@@ -7,8 +7,12 @@ import Html.Events exposing (onClick)
 
 
 type Msg
+  = Delete
+
+
+type Beacon
   = NoOp
-  | Delete
+  | Deleted
 
 
 type alias Model =
@@ -40,11 +44,8 @@ view model =
     ]
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Beacon)
 update msg model =
   case msg of
-    NoOp ->
-      model
-
     Delete ->
-      model
+      (model, Deleted)

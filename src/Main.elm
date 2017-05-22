@@ -52,6 +52,15 @@ init flags =
   ((model flags), Cmd.none)
 
 
+isDeleted : Child.Beacon -> Child.Model -> Bool
+isDeleted beacon child =
+  case beacon of
+    Child.Deleted ->
+      True
+
+    _ ->
+      False
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
@@ -62,12 +71,22 @@ update msg model =
       let
         updateChild next =
           if child.id == next.id then
-            Child.update msg next
+            let
+              (newChild, beacon) =
+                Child.update msg next
+
+            in
+              if isDeleted beacon newChild then
+                Nothing
+
+              else
+                Just newChild
+
           else
-            next
+            Just next
 
         newItems =
-          List.map updateChild model.items
+          List.filterMap updateChild model.items
 
         newModel =
           { model | items = newItems }
