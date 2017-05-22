@@ -15,7 +15,7 @@ $ git checkout using-state
 ```
 
 
-To checking managing two-way communication with messaging:
+To checkout managing two-way communication with messaging:
 
 ```
 $ git checkout beacons
